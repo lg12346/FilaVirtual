@@ -1,0 +1,24 @@
+{
+  "name": "fila-virtual",
+  "version": "1.0.0",
+  "description": "Sistema de gerenciamento de senhas para atendimento ao público",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd backend && npm run dev",
+    "client": "cd frontend && npm start",
+    "build": "npm install && cd backend && npm install && cd ../frontend && npm install && npm run build",
+    "start": "cd backend && npm start"
+  },
+  "keywords": [
+    "fila",
+    "senhas",
+    "atendimento",
+    "real-time"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
