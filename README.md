@@ -293,7 +293,32 @@ npm start
 4. Push para a branch (`git push origin feature/AmazingFeature`)
 5. Abra um Pull Request
 
-## 📄 Licença
+## � Deploy em Produção
+
+Para colocar seu sistema em produção:
+
+- **[VERCEL_DEPLOY.md](VERCEL_DEPLOY.md)** - Guia completo de deploy
+- **[DEPLOY_PASSO_A_PASSO.txt](DEPLOY_PASSO_A_PASSO.txt)** - Visual step-by-step
+- **[MIGRATION_GUIDE.md](MIGRATION_GUIDE.md)** - Migrar SQLite → PostgreSQL
+
+### Resumo Rápido
+
+```bash
+# 1. Frontend na Vercel
+git push origin main
+# Vercel detecta e faz deploy automático
+
+# 2. Backend no Railway
+# Conecte seu GitHub repo
+# Railway fará deploy automático
+
+# 3. Conectar serviços
+# Adicione variáveis de ambiente nos dashboards
+```
+
+**Resultado:** Aplicação profissional, escalável e mantida! 🎉
+
+## �📄 Licença
 
 MIT - Veja LICENSE para detalhes
 

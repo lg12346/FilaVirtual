@@ -1,0 +1,190 @@
+#!/bin/bash
+
+# 📊 Guia Visual de Deploy Vercel/Railway
+
+echo "
+╔════════════════════════════════════════════════════════════════╗
+║          🚀 DEPLOY VERCEL + RAILWAY - PASSO A PASSO          ║
+╚════════════════════════════════════════════════════════════════╝
+
+┌─ FASE 1: PREPARAÇÃO ─────────────────────────────────────────┐
+│                                                               │
+│ PASSO 1: GitHub                                              │
+│  ✓ Criar repositório em https://github.com/new              │
+│  ✓ Nome: FilaVirtual                                        │
+│  ✓ Clonar ou fazer git init                                 │
+│                                                               │
+│    git init                                                   │
+│    git remote add origin https://github.com/SEU/FilaVirtual  │
+│    git add .                                                 │
+│    git commit -m 'Initial commit'                           │
+│    git push -u origin main                                  │
+│                                                               │
+│ PASSO 2: Preparar Variáveis                                 │
+│  ✓ Gerar JWT_SECRET:                                        │
+│                                                               │
+│    node -e \"console.log(require('crypto')                   │
+│        .randomBytes(32).toString('base64'))\"              │
+│                                                               │
+│  ✓ Anote o resultado (será usado na Vercel/Railway)        │
+│                                                               │
+└───────────────────────────────────────────────────────────────┘
+
+
+┌─ FASE 2: FRONTEND (VERCEL) ──────────────────────────────────┐
+│                                                               │
+│ PASSO 3: Ir para Vercel                                     │
+│  1. Abra https://vercel.com                                 │
+│  2. Clique em \"Sign Up\" (ou \"Log In\")                      │
+│  3. Selecione \"Continue with GitHub\"                        │
+│  4. Autorize a Vercel                                       │
+│                                                               │
+│ PASSO 4: Criar Projeto                                      │
+│  1. Clique em \"New Project\"                                 │
+│  2. Clique em \"Import Git Repository\"                       │
+│  3. Cole: https://github.com/SEU_USER/FilaVirtual           │
+│  4. Clique em \"Import\"                                      │
+│                                                               │
+│ PASSO 5: Configurar                                         │
+│  Frame work: ................................ React          │
+│  Root Directory: ........................... ./frontend      │
+│  Build Command: ........................... npm run build    │
+│  Output Directory: ........................ build           │
+│  Install Command: ......................... npm install     │
+│                                                               │
+│ PASSO 6: Variáveis de Ambiente                              │
+│  ⚠️  Não adicione agora! Vamos de novo após Railway         │
+│                                                               │
+│ PASSO 7: Deploy                                             │
+│  Clique em \"Deploy\"                                         │
+│  Aguarde 2-3 minutos                                        │
+│  Copie a URL gerada (ex: seu-projeto-xyz.vercel.app)       │
+│                                                               │
+└───────────────────────────────────────────────────────────────┘
+
+
+┌─ FASE 3: BACKEND + DATABASE (RAILWAY) ────────────────────────┐
+│                                                               │
+│ PASSO 8: Criar Conta Railway                                │
+│  1. Abra https://railway.app                                │
+│  2. Clique em \"Login\" → \"Continue with GitHub\"           │
+│  3. Autorize a Railway                                      │
+│                                                               │
+│ PASSO 9: Criar Novo Projeto                                │
+│  1. Clique em \"Create New Project\"                         │
+│  2. Selecione \"Deploy from GitHub repo\"                    │
+│  3. Selecione \"FilaVirtual\"                                │
+│  4. Clique em \"Deploy\"                                      │
+│                                                               │
+│ PASSO 10: Adicionar PostgreSQL                              │
+│  1. No projeto Railway, clique em \"+New\"                   │
+│  2. Selecione \"Database\" → \"PostgreSQL\"                 │
+│  3. Aguarde criação (1-2 min)                               │
+│                                                               │
+│ PASSO 11: Configurar Backend                                │
+│  1. Clique em seu serviço (não no PostgreSQL)               │
+│  2. Vá para \"Settings\"                                     │
+│  3. Root Directory: ........................... ./backend    │
+│  4. Start Command: ........................... npm start     │
+│  5. Build Command: ........................... npm install   │
+│                                                               │
+│ PASSO 12: Variáveis de Ambiente                             │
+│  Vá para \"Variables\" e adicione:                           │
+│                                                               │
+│  NODE_ENV: ................................. production     │
+│  JWT_SECRET: ............................... [SEU_SECRET]   │
+│  FRONTEND_URL: .................. seu-projeto.vercel.app    │
+│  DATABASE_URL: ......................... Será adicionada    │
+│                                                               │
+│ PASSO 13: Da Railway para o Backend                         │
+│  1. Clique no banco PostgreSQL                              │
+│  2. Vá para \"Connect\"                                      │
+│  3. Copie o \"CONNECTION STRING\"                           │
+│  4. Copie a URL completa                                    │
+│  5. No Backend (Settings → Variables):                      │
+│     DATABASE_URL: [COLE_A_URL]                             │
+│                                                               │
+│ PASSO 14: Deploy                                            │
+│  Clique em \"Redeploy\" no backend                           │
+│  Aguarde deployment                                         │
+│  Obtenha URL do backend (ex: seu-backend-rail.up.railway.app)│
+│                                                               │
+└───────────────────────────────────────────────────────────────┘
+
+
+┌─ FASE 4: CONECTAR FRONTEND + BACKEND ────────────────────────┐
+│                                                               │
+│ PASSO 15: Voltar para Vercel (Frontend)                     │
+│  1. Abra https://vercel.com                                 │
+│  2. Selecione seu projeto                                   │
+│  3. Vá para \"Settings\" → \"Environment Variables\"        │
+│  4. Adicione:                                               │
+│                                                               │
+│  REACT_APP_API_URL: ...... seu-backend.up.railway.app/api  │
+│  REACT_APP_SOCKET_URL: ... seu-backend.up.railway.app      │
+│                                                               │
+│  5. Clique em \"Save\"                                        │
+│  6. Vá para \"Deployments\" → Clique na mais recente        │
+│  7. Clique em \"Redeploy\"                                   │
+│  8. Aguarde 2-3 minutos                                      │
+│                                                               │
+└───────────────────────────────────────────────────────────────┘
+
+
+┌─ FASE 5: TESTES ──────────────────────────────────────────────┐
+│                                                               │
+│ PASSO 16: Verificar Tudo Funciona                           │
+│                                                               │
+│ Test 1 - Frontend carrega                                   │
+│  Abra: https://seu-projeto.vercel.app                       │
+│  ✓ Tela de login deve aparecer                              │
+│                                                               │
+│ Test 2 - Backend responde                                   │
+│  curl https://seu-backend.railway.app/api/health            │
+│  ✓ Deve mostrar: {\"status\":\"ok\"}                         │
+│                                                               │
+│ Test 3 - Fazer Login                                        │
+│  1. Abra https://seu-projeto.vercel.app                     │
+│  2. Clique em \"Não tem conta? Cadastre-se\"               │
+│  3. Registre um novo usuário                                │
+│  4. Faça login                                              │
+│  ✓ Deve funcionar!                                          │
+│                                                               │
+│ Test 4 - Gerar Senha                                        │
+│  1. Depois de logado                                        │
+│  2. Clique em \"+ Gerar Nova Senha\"                        │
+│  3. Deve aparecer a senha #1                                │
+│  ✓ WebSocket conectado!                                     │
+│                                                               │
+└───────────────────────────────────────────────────────────────┘
+
+
+╔════════════════════════════════════════════════════════════════╗
+║                        ✅ PRONTO!                              ║
+║                                                                ║
+║  Seu aplicativo está online:                                  ║
+║  🌐 Frontend: https://seu-projeto.vercel.app                 ║
+║  🔌 Backend:  https://seu-backend.railway.app                │
+║                                                                ║
+║  Próximas melhorias:                                          │
+║  • Adicionar domínio customizado                             │
+║  • Configurar emails automáticos                             │
+║  • Criar backups automáticos                                 │
+║  • Monitorar performance                                     │
+║                                                                ║
+║  Documentação completa: VERCEL_DEPLOY.md                     │
+║  Migração SQLite→PostgreSQL: MIGRATION_GUIDE.md              │
+╚════════════════════════════════════════════════════════════════╝
+
+📞 SUPORTE:
+  • Vercel Docs: https://vercel.com/docs
+  • Railway Docs: https://docs.railway.app
+  • Seu Projeto: https://github.com/SEU_USER/FilaVirtual
+
+⚠️  IMPORTANTE:
+  • Guarde JWT_SECRET em local seguro
+  • Nunca commite .env files
+  • Faça backups regulares
+  • Monitore logs regularmente
+
+" | less
